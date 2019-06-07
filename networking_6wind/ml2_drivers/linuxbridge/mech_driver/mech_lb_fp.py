@@ -47,6 +47,13 @@ class LBFPMechanismDriver(mech_linuxbridge.LinuxbridgeMechanismDriver):
         return None
 
     def try_to_bind_segment_for_agent(self, context, segment, agent):
+        profile = context.current.get(portbindings.PROFILE)
+        if profile and 'accelerated' in profile:
+            accelerated = profile.get('accelerated')
+            if accelerated in ['False', 'false', '0', False, 0]:
+                LOG.error("Refusing to bind non-accelerated port %s: %s" %
+                          (context.current['id'], str(profile)))
+                return False
         lb_agent = self._get_lb_agent(context)
         if lb_agent is None:
             LOG.error("Refusing to bind port %s due to "
