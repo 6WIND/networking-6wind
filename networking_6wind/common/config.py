@@ -18,14 +18,13 @@ from oslo_config import cfg
 
 CONF = cfg.CONF
 
-mech_driver_group = cfg.OptGroup(name='ovs_fp',
-                                 title='ovs-fp ML2 plugin options')
+mech_driver_group = cfg.OptGroup(name='ml2_fp',
+                                 title='6WIND ML2 plugin options')
 
 mech_driver_opts = [
     cfg.BoolOpt('ovs_agent_required', default=True,
-                help=_("Set to false to enable driver to complete port "
-                       "binding without presence of "
-                       "neutron-openvswitch-agent")),
+                help=_("Set to False to allow driver complete port binding "
+                       "without presence of neutron-openvswitch-agent")),
     cfg.ListOpt('allowed_network_types', default=[constants.TYPE_VLAN,
                                                   constants.TYPE_VXLAN,
                                                   constants.TYPE_GRE],

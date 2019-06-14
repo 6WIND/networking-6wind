@@ -23,7 +23,7 @@ from neutron.plugins.ml2.drivers.openvswitch.mech_driver import (
     mech_openvswitch)
 
 LOG = log.getLogger(__name__)
-cfg.CONF.import_group('ovs_fp', 'networking_6wind.common.config')
+cfg.CONF.import_group('ml2_fp', 'networking_6wind.common.config')
 
 
 class OVSFPMechanismDriver(mech_openvswitch.OpenvswitchMechanismDriver):
@@ -38,7 +38,7 @@ class OVSFPMechanismDriver(mech_openvswitch.OpenvswitchMechanismDriver):
 
     def __init__(self):
         super(OVSFPMechanismDriver, self).__init__()
-        self.conf = cfg.CONF.ovs_fp
+        self.conf = cfg.CONF.ml2_fp
         self.agent_type = constants.FP_AGENT_TYPE
         self.fp_info = None
         self.supported_vnic_types = [portbindings.VNIC_NORMAL]
