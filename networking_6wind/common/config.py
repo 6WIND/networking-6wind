@@ -30,7 +30,11 @@ mech_driver_opts = [
                                                   constants.TYPE_GRE],
                 help=_("List of network segment types for which "
                        "driver is allowed to complete port binding. "
-                       "Ignored if ovs_agent_required"))
+                       "Ignored if ovs_agent_required")),
+    cfg.BoolOpt('accelerated', default=True,
+                help=_("If True all vNICs will be managed by "
+                       "virtual-accelerator, except ports with port binding "
+                       "property accelerated=False and vice versa")),
 ]
 
 CONF.register_group(mech_driver_group)

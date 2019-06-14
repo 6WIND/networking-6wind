@@ -14,6 +14,7 @@
 from neutron_lib.api.definitions import portbindings
 from neutron_lib import constants as n_constants
 from neutron_lib.plugins.ml2 import api
+from oslo_config import cfg
 from oslo_log import log
 
 from networking_6wind.common import constants
@@ -22,6 +23,8 @@ from neutron.plugins.ml2.drivers.linuxbridge.mech_driver import (
     mech_linuxbridge)
 
 LOG = log.getLogger(__name__)
+
+cfg.CONF.import_group('ml2_fp', 'networking_6wind.common.config')
 
 
 class LBFPMechanismDriver(mech_linuxbridge.LinuxbridgeMechanismDriver):
@@ -37,6 +40,7 @@ class LBFPMechanismDriver(mech_linuxbridge.LinuxbridgeMechanismDriver):
 
     def __init__(self):
         super(LBFPMechanismDriver, self).__init__()
+        self.conf = cfg.CONF.ml2_fp
         self.agent_type = constants.FP_AGENT_TYPE
         self.fp_info = None
 
@@ -46,14 +50,20 @@ class LBFPMechanismDriver(mech_linuxbridge.LinuxbridgeMechanismDriver):
                 return agent
         return None
 
-    def try_to_bind_segment_for_agent(self, context, segment, agent):
+    def _need_to_bind(self, context):
+        accelerated = self.conf.accelerated
         profile = context.current.get(portbindings.PROFILE)
-        if profile and 'accelerated' in profile:
-            accelerated = profile.get('accelerated')
-            if accelerated in ['False', 'false', '0', False, 0]:
-                LOG.error("Refusing to bind non-accelerated port %s: %s" %
-                          (context.current['id'], str(profile)))
-                return False
+        if profile:
+            accelerated = profile.get('accelerated', self.conf.accelerated)
+        if accelerated in ['True', 'true', '1', True, 1]:
+            return True
+        LOG.info("Refusing to bind non-accelerated port %s" %
+                 context.current['id'])
+        return False
+
+    def try_to_bind_segment_for_agent(self, context, segment, agent):
+        if not self._need_to_bind(context):
+            return False
         lb_agent = self._get_lb_agent(context)
         if lb_agent is None:
             LOG.error("Refusing to bind port %s due to "
