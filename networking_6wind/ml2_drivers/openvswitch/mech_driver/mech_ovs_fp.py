@@ -55,14 +55,20 @@ class OVSFPMechanismDriver(mech_openvswitch.OpenvswitchMechanismDriver):
         network_type = segment[api.NETWORK_TYPE]
         return network_type in self.conf.allowed_network_types
 
-    def try_to_bind_segment_for_agent(self, context, segment, agent):
+    def _need_to_bind(self, context):
+        accelerated = self.conf.accelerated
         profile = context.current.get(portbindings.PROFILE)
-        if profile and 'accelerated' in profile:
-            accelerated = profile.get('accelerated')
-            if accelerated in ['False', 'false', '0', False, 0]:
-                LOG.info("Refusing to bind non-accelerated port %s: %s" %
-                         (context.current['id'], str(profile)))
-                return False
+        if profile:
+            accelerated = profile.get('accelerated', self.conf.accelerated)
+        if accelerated in ['True', 'true', '1', True, 1]:
+            return True
+        LOG.info("Refusing to bind non-accelerated port %s" %
+                 context.current['id'])
+        return False
+
+    def try_to_bind_segment_for_agent(self, context, segment, agent):
+        if not self._need_to_bind(context):
+            return False
         ovs_agent = self._get_ovs_agent(context)
         if ovs_agent is None and self.conf.ovs_agent_required:
             LOG.error("Refusing to bind port %s due to dead "
