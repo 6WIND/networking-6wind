@@ -38,6 +38,8 @@ class LBFPMechanismBaseTestCase(test_lb.LinuxbridgeMechanismBaseTestCase):
 
     VIF_DETAILS = {portbindings.CAP_PORT_FILTER: True,
                    constants.VIF_DETAILS_VHOSTUSER_FP_PLUG: True,
+                   portbindings.VIF_DETAILS_CONNECTIVITY:
+                       portbindings.CONNECTIVITY_L2,
                    portbindings.VHOST_USER_MODE: mode,
                    portbindings.VHOST_USER_SOCKET: socket,
                    portbindings.VIF_DETAILS_BRIDGE_NAME: br_name}

@@ -1,5 +1,4 @@
 Sphinx>=1.4.9, <2.0
-oslo.config>=4.8.0
 docutils>=0.14
 python_mimeparse>=1.6.0
 neutron_lib>=1.25.0
