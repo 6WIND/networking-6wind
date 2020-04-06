@@ -23,7 +23,7 @@ if [ $CONTAINER -eq 1 ]; then
 	cat << EOF > $FILE
 #!/bin/bash
 set -xe
-sudo -u neutron /usr/bin/python2 /usr/bin/neutron-fastpath-agent --config-file /etc/neutron/rootwrap.conf --config-file /etc/neutron/neutron.conf --config-dir /etc/neutron/conf.d/common --log-file /var/log/neutron/fastpath-agent.log &
+sudo -u neutron /usr/bin/python3 /usr/bin/neutron-fastpath-agent --config-file /etc/neutron/rootwrap.conf --config-file /etc/neutron/neutron.conf --config-dir /etc/neutron/conf.d/common --log-file /var/log/neutron/fastpath-agent.log &
 EOF
 chmod +x $FILE
 
