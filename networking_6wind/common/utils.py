@@ -19,6 +19,8 @@ from fp_vdev_remote import vdev_utils
 
 from neutron.agent.common import utils as neutron_utils
 
+from networking_6wind.common import constants
+
 
 FP_VDEV_CMD = None
 
@@ -34,6 +36,6 @@ def get_socket_settings():
     return (path.strip(), mode.strip())
 
 
-def get_socket_path(socket_prefix, socket_dir, port_id):
-    vhostuser_socket_name = socket_prefix + port_id
+def get_socket_path(socket_dir, port_id):
+    vhostuser_socket_name = constants.VHOSTUSER_SOCKET_PREFIX + port_id
     return os.path.join(socket_dir, vhostuser_socket_name)

@@ -28,8 +28,7 @@ from neutron.tests.unit.plugins.ml2.drivers.openvswitch.mech_driver import (
     test_mech_openvswitch as test_ovs)
 
 mode = portbindings.VHOST_USER_MODE_SERVER
-socket = get_socket_path(constants.VHOSTUSER_SOCKET_PREFIX,
-                         constants.VHOSTUSER_SOCKET_DIR, base.PORT_ID)
+socket = get_socket_path(constants.VHOSTUSER_SOCKET_DIR, base.PORT_ID)
 
 
 class OVSFPMechanismBaseTestCase(test_ovs.OpenvswitchMechanismBaseTestCase):
@@ -59,7 +58,6 @@ class OVSFPMechanismBaseTestCase(test_ovs.OpenvswitchMechanismBaseTestCase):
         'timestamp': constants.BASE_TIMESTAMP,
         'active': True,
         'vhostuser_socket_dir': constants.VHOSTUSER_SOCKET_DIR,
-        'vhostuser_socket_prefix': constants.VHOSTUSER_SOCKET_PREFIX,
         'vhostuser_socket_mode': portbindings.VHOST_USER_MODE_CLIENT,
         'supported_plugs': [VIF_OVS, VIF_BRIDGE],
     }
@@ -70,7 +68,6 @@ class OVSFPMechanismBaseTestCase(test_ovs.OpenvswitchMechanismBaseTestCase):
         'timestamp': constants.BASE_TIMESTAMP,
         'active': False,
         'vhostuser_socket_dir': constants.VHOSTUSER_SOCKET_DIR,
-        'vhostuser_socket_prefix': constants.VHOSTUSER_SOCKET_PREFIX,
         'vhostuser_socket_mode': portbindings.VHOST_USER_MODE_CLIENT,
         'supported_plugs': [VIF_OVS, VIF_BRIDGE, VIF_TAP],
     }

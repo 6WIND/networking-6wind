@@ -26,8 +26,7 @@ from neutron.tests.unit.plugins.ml2.drivers.linuxbridge.mech_driver import (
 
 class LBFPMechanismBaseTestCase(test_lb.LinuxbridgeMechanismBaseTestCase):
     mode = portbindings.VHOST_USER_MODE_SERVER
-    socket = get_socket_path(constants.VHOSTUSER_SOCKET_PREFIX,
-                             constants.VHOSTUSER_SOCKET_DIR, base.PORT_ID)
+    socket = get_socket_path(constants.VHOSTUSER_SOCKET_DIR, base.PORT_ID)
     br_name = constants.BRIDGE_PREFIX + base.NETWORK_ID
 
     VIF_TYPE = portbindings.VIF_TYPE_VHOST_USER
@@ -54,7 +53,6 @@ class LBFPMechanismBaseTestCase(test_lb.LinuxbridgeMechanismBaseTestCase):
         'timestamp': constants.BASE_TIMESTAMP,
         'active': True,
         'vhostuser_socket_dir': constants.VHOSTUSER_SOCKET_DIR,
-        'vhostuser_socket_prefix': constants.VHOSTUSER_SOCKET_PREFIX,
         'vhostuser_socket_mode': portbindings.VHOST_USER_MODE_CLIENT,
         'supported_plugs': [VIF_OVS, VIF_BRIDGE, VIF_TAP],
     }
@@ -65,7 +63,6 @@ class LBFPMechanismBaseTestCase(test_lb.LinuxbridgeMechanismBaseTestCase):
         'timestamp': constants.BASE_TIMESTAMP,
         'active': False,
         'vhostuser_socket_dir': constants.VHOSTUSER_SOCKET_DIR,
-        'vhostuser_socket_prefix': constants.VHOSTUSER_SOCKET_PREFIX,
         'vhostuser_socket_mode': portbindings.VHOST_USER_MODE_CLIENT,
         'supported_plugs': [VIF_OVS, VIF_BRIDGE, VIF_TAP],
     }
