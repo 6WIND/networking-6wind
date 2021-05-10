@@ -50,7 +50,6 @@ class NeutronFastPathAgent(manager.Manager):
             'product': 'virtual-accelerator',
             'active': False,
             'vhostuser_socket_dir': sock_dir,
-            'vhostuser_socket_prefix': constants.VHOSTUSER_SOCKET_PREFIX,
             'vhostuser_socket_mode': sock_mode,
             'supported_plugs': ['ovs', 'bridge', 'tap'],
         }

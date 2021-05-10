@@ -87,10 +87,8 @@ class LBFPMechanismDriver(mech_linuxbridge.LinuxbridgeMechanismDriver):
         return True
 
     def get_vif_details(self, context, agent, segment):
-        socket_prefix = self.fp_info['vhostuser_socket_prefix']
         socket_dir = self.fp_info['vhostuser_socket_dir']
-        socket = get_socket_path(socket_prefix, socket_dir,
-                                 context.current['id'])
+        socket = get_socket_path(socket_dir, context.current['id'])
         brg = constants.BRIDGE_PREFIX + context.network.current['id']
 
         if self.fp_info['vhostuser_socket_mode'] == 'client':

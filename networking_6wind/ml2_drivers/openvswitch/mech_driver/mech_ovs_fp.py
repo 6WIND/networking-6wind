@@ -93,10 +93,8 @@ class OVSFPMechanismDriver(mech_openvswitch.OpenvswitchMechanismDriver):
         return True
 
     def get_vif_details(self, context, agent, segment):
-        socket_prefix = self.fp_info['vhostuser_socket_prefix']
         socket_dir = self.fp_info['vhostuser_socket_dir']
-        socket = get_socket_path(socket_prefix, socket_dir,
-                                 context.current['id'])
+        socket = get_socket_path(socket_dir, context.current['id'])
         qemu_mode = portbindings.VHOST_USER_MODE_CLIENT
         if self.fp_info['vhostuser_socket_mode'] == 'client':
             qemu_mode = portbindings.VHOST_USER_MODE_SERVER
