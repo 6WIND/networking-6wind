@@ -20,7 +20,9 @@ from fp_vdev_remote import vdev_utils
 from neutron.agent.common import utils as neutron_utils
 
 from networking_6wind.common import constants
+from oslo_config import cfg
 
+cfg.CONF.import_group('ml2_fp', 'networking_6wind.common.config')
 
 FP_VDEV_CMD = None
 
@@ -37,5 +39,10 @@ def get_socket_settings():
 
 
 def get_socket_path(socket_dir, port_id):
-    vhostuser_socket_name = constants.VHOSTUSER_SOCKET_PREFIX + port_id
+    if cfg.CONF.ml2_fp.vhostuser_socket_use_devname:
+        vhostuser_socket_name = (constants.VHOSTUSER_SOCKET_DEVNAME_PREFIX
+                                 + port_id)[:14]
+    else:
+        vhostuser_socket_name = constants.VHOSTUSER_SOCKET_PREFIX + port_id
+
     return os.path.join(socket_dir, vhostuser_socket_name)
