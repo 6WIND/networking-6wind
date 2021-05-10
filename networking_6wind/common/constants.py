@@ -27,6 +27,7 @@ FP_AGENT_TYPE = '6WIND Fast Path agent'
 VHOSTUSER_SOCKET_DIR = '/tmp'
 VHOSTUSER_SOCKET_MODE = 'client'
 VHOSTUSER_SOCKET_PREFIX = 'vhost-socket-'
+VHOSTUSER_SOCKET_DEVNAME_PREFIX = 'tap'
 
 # vhostuser fp plug
 # duplicate this constant from nova.network.model.py,

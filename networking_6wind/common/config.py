@@ -35,6 +35,11 @@ mech_driver_opts = [
                 help=_("If True all vNICs will be managed by "
                        "virtual-accelerator, except ports with port binding "
                        "property accelerated=False and vice versa")),
+    cfg.BoolOpt('vhostuser_socket_use_devname',
+                help='Vhost user file has the same name that the device (i.e. '
+                'tapXXX) instead of vhost-socket-XXX. With the new naming '
+                'convention, libvirt is able to retrieve name of virtual '
+                'interfaces of a server instance.', default=True),
 ]
 
 CONF.register_group(mech_driver_group)
