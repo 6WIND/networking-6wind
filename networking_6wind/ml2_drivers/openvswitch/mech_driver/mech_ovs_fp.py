@@ -51,7 +51,12 @@ class OVSFPMechanismDriver(mech_openvswitch.OpenvswitchMechanismDriver):
 
     def _check_segment_for_agent(self, segment, ovs_agent=None):
         if ovs_agent:
-            return self.check_segment_for_agent(segment, ovs_agent)
+            # workaround to call check_segment_for_agent, see:
+            # https://opendev.org/openstack/neutron/commit/e12580f602f81
+            self.agent_type = n_constants.AGENT_TYPE_OVS
+            ret = self.check_segment_for_agent(segment, ovs_agent)
+            self.agent_type = constants.FP_AGENT_TYPE
+            return ret
         network_type = segment[api.NETWORK_TYPE]
         return network_type in self.conf.allowed_network_types
 

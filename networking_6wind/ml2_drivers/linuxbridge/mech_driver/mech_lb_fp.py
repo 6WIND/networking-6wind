@@ -61,6 +61,15 @@ class LBFPMechanismDriver(mech_linuxbridge.LinuxbridgeMechanismDriver):
                  context.current['id'])
         return False
 
+    def _check_segment_for_agent(self, segment, lb_agent):
+        # workaround to call check_segment_for_agent, see:
+        # https://opendev.org/openstack/neutron/commit/e12580f602f81
+        self.agent_type = n_constants.AGENT_TYPE_LINUXBRIDGE
+        ret = self.check_segment_for_agent(segment, lb_agent)
+        # restore correct value for agent_type
+        self.agent_type = constants.FP_AGENT_TYPE
+        return ret
+
     def try_to_bind_segment_for_agent(self, context, segment, agent):
         if not self._need_to_bind(context):
             return False
@@ -71,7 +80,7 @@ class LBFPMechanismDriver(mech_linuxbridge.LinuxbridgeMechanismDriver):
             return False
         # pass lb_agent, because it contains supported tunnel type in its
         # 'configurations' dict
-        if not self.check_segment_for_agent(segment, lb_agent):
+        if not self._check_segment_for_agent(segment, lb_agent):
             return False
         LOG.debug("Trying to retrieve fp_info from %s..." % agent)
         self.fp_info = agent.get('configurations')
